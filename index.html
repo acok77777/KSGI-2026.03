@@ -12,7 +12,6 @@ body{
   font-family:Arial;
   background:#f5f5f5;
   text-align:center;
-  overflow-x:hidden;
 }
 
 /* 상단 */
@@ -39,7 +38,6 @@ body{
   background:#333;
   color:white;
   cursor:pointer;
-  z-index:10;
 }
 
 /* 그리드 */
@@ -50,20 +48,21 @@ body{
   padding:10px;
 }
 
+/* 박스 (비율 유지로 잘림 방지) */
 .grid img{
   width:100%;
   aspect-ratio:190/200;
   object-fit:cover;
   border-radius:15px;
   cursor:pointer;
-  transition:0.15s;
 }
 
+/* 클릭 */
 .grid img:active{
   transform:scale(0.95);
 }
 
-/* 💖 여러 하트 */
+/* 💖 하트 */
 .heart{
   position:absolute;
   font-size:24px;
@@ -82,7 +81,7 @@ body{
   }
 }
 
-/* 팝업 배경 */
+/* 팝업 */
 .popup{
   position:fixed;
   top:0; left:0;
@@ -92,7 +91,6 @@ body{
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:999;
 }
 
 /* 팝업 카드 */
@@ -103,7 +101,6 @@ body{
   background:white;
   border-radius:20px;
   overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
 .popup-content img{
@@ -153,7 +150,7 @@ body{
 
 <script>
 
-// 💖 여러 하트 생성
+// 💖 하트
 function createHearts(x, y){
   for(let i=0;i<8;i++){
     const heart = document.createElement("div");
@@ -163,13 +160,10 @@ function createHearts(x, y){
     const angle = Math.random()*2*Math.PI;
     const distance = 60 + Math.random()*40;
 
-    const moveX = Math.cos(angle)*distance + "px";
-    const moveY = Math.sin(angle)*distance + "px";
-
     heart.style.left = x + "px";
     heart.style.top = y + "px";
-    heart.style.setProperty('--x', moveX);
-    heart.style.setProperty('--y', moveY);
+    heart.style.setProperty('--x', Math.cos(angle)*distance + "px");
+    heart.style.setProperty('--y', Math.sin(angle)*distance + "px");
 
     document.body.appendChild(heart);
 
@@ -184,12 +178,12 @@ function openPop(e, img){
   const x = rect.left + rect.width/2;
   const y = rect.top + rect.height/2;
 
+  // 하트 먼저
   createHearts(x,y);
 
-  setTimeout(()=>{
-    document.getElementById("popup").style.display="flex";
-    document.getElementById("popImg").src = img;
-  },500); // ⭐ 0.5초
+  // ⭐ 바로 팝업 띄움 (지연 없음)
+  document.getElementById("popup").style.display="flex";
+  document.getElementById("popImg").src = img;
 }
 
 // 닫기
