@@ -13,45 +13,25 @@ body{
   overflow:hidden;
 }
 
-/* 상단 */
-.header{
-  position:relative;
-  text-align:center;
-  padding:10px;
+/* 🔥 전체 영역 */
+.wrapper{
+  padding:10px 8px;   /* 👉 좌우 여백 살짝 */
 }
 
-.header img{
-  width:340px;
-}
-
-/* 전체화면 버튼 */
-.full-btn{
-  position:absolute;
-  right:10px;
-  top:10px;
-  padding:8px 12px;
-  background:#000;
-  color:#fff;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-/* 🔥 간격 줄이고 꽉 채우기 */
+/* 그리드 */
 .grid{
   display:grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  height: calc(100vh - 120px);
-  gap:4px;          /* 👉 간격 줄임 */
-  padding:4px;      /* 👉 바깥 여백도 최소 */
+  height:100vh;
+  gap:6px;
 }
 
 /* 박스 */
 .item{
   cursor:pointer;
   overflow:hidden;
-  border-radius:20px;   /* 👉 둥글게 */
+  border-radius:20px;
 }
 
 /* 이미지 */
@@ -85,7 +65,7 @@ body{
   max-height:95%;
 }
 
-/* 닫기 */
+/* 닫기 버튼 */
 .close{
   position:absolute;
   top:15px;
@@ -111,25 +91,20 @@ body{
 
 <body>
 
-<!-- 타이틀 -->
-<div class="header">
-  <img src="title.png">
-  <button class="full-btn" id="fullBtn" onclick="goFull()">전체화면</button>
-</div>
+<div class="wrapper">
+  <div class="grid">
 
-<!-- 그리드 -->
-<div class="grid">
+    <div class="item" onclick="openPopup(event,'health.png')"><img src="01.png"></div>
+    <div class="item" onclick="openPopup(event,'love.png')"><img src="02.png"></div>
+    <div class="item" onclick="openPopup(event,'cheer.png')"><img src="03.png"></div>
+    <div class="item" onclick="openPopup(event,'rest.png')"><img src="04.png"></div>
 
-  <div class="item" onclick="openPopup(event,'health.png')"><img src="01.png"></div>
-  <div class="item" onclick="openPopup(event,'love.png')"><img src="02.png"></div>
-  <div class="item" onclick="openPopup(event,'cheer.png')"><img src="03.png"></div>
-  <div class="item" onclick="openPopup(event,'rest.png')"><img src="04.png"></div>
+    <div class="item" onclick="openPopup(event,'freedom.png')"><img src="05.png"></div>
+    <div class="item" onclick="openPopup(event,'thanks.png')"><img src="06.png"></div>
+    <div class="item" onclick="openPopup(event,'courage.png')"><img src="07.png"></div>
+    <div class="item" onclick="openPopup(event,'hope.png')"><img src="08.png"></div>
 
-  <div class="item" onclick="openPopup(event,'freedom.png')"><img src="05.png"></div>
-  <div class="item" onclick="openPopup(event,'thanks.png')"><img src="06.png"></div>
-  <div class="item" onclick="openPopup(event,'courage.png')"><img src="07.png"></div>
-  <div class="item" onclick="openPopup(event,'hope.png')"><img src="08.png"></div>
-
+  </div>
 </div>
 
 <!-- 팝업 -->
@@ -142,7 +117,6 @@ body{
 // 💖 하트 + 팝업
 function openPopup(e, imgSrc){
 
-  // 하트 여러개 퍼짐
   for(let i=0;i<3;i++){
     let heart = document.createElement("img");
     heart.src = "heart.png";
@@ -155,7 +129,6 @@ function openPopup(e, imgSrc){
     setTimeout(()=> heart.remove(),500);
   }
 
-  // 0.2초 후 팝업
   setTimeout(()=>{
     document.getElementById("popupImg").src = imgSrc;
     document.getElementById("popup").style.display = "flex";
@@ -165,21 +138,6 @@ function openPopup(e, imgSrc){
 // 닫기
 function closePopup(){
   document.getElementById("popup").style.display = "none";
-}
-
-// 전체화면
-function goFull(){
-  let doc = document.documentElement;
-
-  if(doc.requestFullscreen){
-    doc.requestFullscreen();
-  }
-
-  document.getElementById("fullBtn").style.display = "none";
-
-  if(screen.orientation && screen.orientation.lock){
-    screen.orientation.lock('landscape').catch(()=>{});
-  }
 }
 </script>
 
