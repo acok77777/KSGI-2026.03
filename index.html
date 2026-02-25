@@ -18,18 +18,19 @@ body{
   position:fixed;
   right:10px;
   top:10px;
-  padding:8px 12px;
+  padding:6px 10px;
   background:#000;
   color:#fff;
   border:none;
   border-radius:8px;
   cursor:pointer;
   z-index:1000;
+  font-size:12px;
 }
 
 /* 전체 영역 */
 .wrapper{
-  padding:10px 32px; /* 👉 상하 + 좌우 여백 확보 */
+  padding:12px 32px;
   display:flex;
   flex-direction:column;
   height:100vh;
@@ -39,12 +40,12 @@ body{
 /* 타이틀 */
 .title{
   text-align:center;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
 .title img{
-  width:70%;
-  max-height:45px; /* 👉 더 줄임 */
+  width:60%;
+  max-height:35px; /* 👉 더 줄여서 위 잘림 해결 */
   object-fit:contain;
 }
 
@@ -55,7 +56,6 @@ body{
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
   gap:10px;
-  height:78%; /* 👉 전체적으로 더 줄여서 위/아래 안 잘리게 */
 }
 
 /* 박스 */
@@ -108,14 +108,14 @@ body{
 /* 하트 */
 .heart{
   position:absolute;
-  width:70px;
+  width:60px;
   animation:pop 0.5s ease-out;
   pointer-events:none;
 }
 
 @keyframes pop{
   0%{transform:scale(0); opacity:1;}
-  100%{transform:scale(1.6); opacity:0;}
+  100%{transform:scale(1.5); opacity:0;}
 }
 </style>
 </head>
@@ -158,8 +158,8 @@ function openPopup(e, imgSrc){
     heart.src = "heart.png";
     heart.className = "heart";
 
-    heart.style.left = (e.clientX - 35 + (Math.random()*40-20)) + "px";
-    heart.style.top = (e.clientY - 35 + (Math.random()*40-20)) + "px";
+    heart.style.left = (e.clientX - 30 + (Math.random()*40-20)) + "px";
+    heart.style.top = (e.clientY - 30 + (Math.random()*40-20)) + "px";
 
     document.body.appendChild(heart);
     setTimeout(()=> heart.remove(),500);
