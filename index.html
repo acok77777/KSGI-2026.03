@@ -2,149 +2,199 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>우리 가족 시상식</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>나에게 주는 선물</title>
 
 <style>
 body{
   margin:0;
-  font-family: Arial;
-  background: linear-gradient(135deg,#ffe5ec,#e0f7fa,#fff1e6,#e5ffe5);
+  font-family:Arial;
+  background:#f5f5f5;
+  text-align:center;
+  overflow-x:hidden;
 }
 
-/* 🔥 전체 영역 - 스크롤 허용 (잘림 방지 핵심) */
-.container{
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  min-height:100vh;
-  padding:20px;
-  box-sizing:border-box;
+/* 상단 */
+.header{
+  position:relative;
 }
 
-/* 🔥 그리드 */
+.title-img{
+  width:90%;
+  max-width:500px;
+  margin:20px auto;
+  display:block;
+}
+
+/* 전체화면 버튼 */
+.full-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:14px;
+  padding:8px 12px;
+  border:none;
+  border-radius:10px;
+  background:#333;
+  color:white;
+  cursor:pointer;
+  z-index:10;
+}
+
+/* 가로 화면 최적화 */
+@media (orientation: landscape){
+  body{
+    max-width:100vw;
+  }
+}
+
+/* 그리드 */
 .grid{
   display:grid;
-  grid-template-columns: repeat(2, 190px);
-  gap:15px;
+  grid-template-columns:repeat(auto-fit, minmax(248px,1fr));
+  justify-items:center;
+  gap:10px;
+  padding:10px;
 }
 
-/* 🔥 박스 */
-.box{
-  width:190px;
-  height:160px; /* ✅ 핵심 수정 */
-  border-radius:20px;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  font-size:16px;
+/* 박스 고정 크기 */
+.grid img{
+  width:248px;
+  height:224px;
+  object-fit:cover;
+  border-radius:15px;
   cursor:pointer;
+  transition:0.15s;
   position:relative;
-  overflow:hidden;
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* ❤️ 하트 애니메이션 */
+/* 클릭 애니메이션 */
+.grid img:active{
+  transform:scale(0.9);
+}
+
+/* 하트 애니메이션 */
 .heart{
   position:absolute;
-  font-size:20px;
-  animation:heartPop 0.6s ease-out forwards;
+  font-size:30px;
+  animation:heartSpread 0.6s ease-out forwards;
+  pointer-events:none;
 }
 
-@keyframes heartPop{
-  0%{transform:scale(0); opacity:1;}
-  100%{transform:translateY(-80px) scale(1.5); opacity:0;}
+@keyframes heartSpread{
+  0%{
+    transform:scale(0.5);
+    opacity:1;
+  }
+  100%{
+    transform:scale(3);
+    opacity:0;
+  }
 }
 
-/* 🔥 팝업 */
+/* 팝업 (전체 꽉차게) */
 .popup{
   position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:80%;
-  max-width:400px;
-  background:white;
-  border-radius:20px;
-  padding:20px;
+  top:0; left:0;
+  width:100vw;
+  height:100vh;
+  background:rgba(0,0,0,0.95);
   display:none;
-  z-index:1000;
-  text-align:center;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
 }
 
-/* 배경 */
-.overlay{
-  position:fixed;
-  top:0;
-  left:0;
+/* 팝업 이미지 */
+.popup img{
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.5);
-  display:none;
+  object-fit:contain;
+  max-width:1191px;
+  max-height:674px;
+}
+
+/* 닫기 버튼 */
+.close{
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:40px;
+  color:white;
+  cursor:pointer;
+  z-index:1000;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <div class="grid">
-
-    <div class="box" onclick="openBox(this)">
-      건강 선물
-    </div>
-
-    <div class="box" onclick="openBox(this)">
-      사랑 선물
-    </div>
-
-    <div class="box" onclick="openBox(this)">
-      격려 선물
-    </div>
-
-    <div class="box" onclick="openBox(this)">
-      휴식 선물
-    </div>
-
-  </div>
+<!-- 상단 -->
+<div class="header">
+  <img src="title.png" class="title-img">
+  <button class="full-btn" id="fullBtn" onclick="goFull()">전체화면</button>
 </div>
 
-<div class="overlay" id="overlay"></div>
+<!-- 8칸 -->
+<div class="grid">
+  <img src="01.png" onclick="openPop(event,'health.png')">
+  <img src="02.png" onclick="openPop(event,'love.png')">
+  <img src="03.png" onclick="openPop(event,'cheer.png')">
+  <img src="04.png" onclick="openPop(event,'rest.png')">
 
+  <img src="05.png" onclick="openPop(event,'freedom.png')">
+  <img src="06.png" onclick="openPop(event,'thanks.png')">
+  <img src="07.png" onclick="openPop(event,'courage.png')">
+  <img src="08.png" onclick="openPop(event,'hope.png')">
+</div>
+
+<!-- 팝업 -->
 <div class="popup" id="popup">
-  <h2>🎁 선물 도착!</h2>
-  <p>지금 이 순간, 나에게 주는 소중한 선물입니다 💖</p>
-  <button onclick="closePopup()">닫기</button>
+  <div class="close" onclick="closePop()">✖</div>
+  <img id="popImg">
 </div>
 
 <script>
-function openBox(el){
 
-  // ❤️ 하트 생성
-  for(let i=0;i<8;i++){
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "❤️";
+// 팝업 열기 + 하트 효과
+function openPop(e, img){
 
-    heart.style.left = Math.random()*150 + "px";
-    heart.style.top = Math.random()*120 + "px";
+  // 하트 생성
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
 
-    el.appendChild(heart);
+  const rect = e.target.getBoundingClientRect();
+  heart.style.left = rect.left + rect.width/2 + "px";
+  heart.style.top = rect.top + rect.height/2 + "px";
 
-    setTimeout(()=>heart.remove(),600);
+  document.body.appendChild(heart);
+
+  setTimeout(()=>{
+    heart.remove();
+    document.getElementById("popup").style.display="flex";
+    document.getElementById("popImg").src = img;
+  },300);
+}
+
+// 팝업 닫기
+function closePop(){
+  document.getElementById("popup").style.display="none";
+}
+
+// 전체화면 + 버튼 숨김
+function goFull(){
+  const el = document.documentElement;
+
+  if(el.requestFullscreen){
+    el.requestFullscreen();
   }
 
-  // 🔥 바로 팝업 (0.3초 제거)
-  document.getElementById("popup").style.display="block";
-  document.getElementById("overlay").style.display="block";
+  // 버튼 숨김
+  document.getElementById("fullBtn").style.display="none";
 }
 
-function closePopup(){
-  document.getElementById("popup").style.display="none";
-  document.getElementById("overlay").style.display="none";
-}
 </script>
 
 </body>
