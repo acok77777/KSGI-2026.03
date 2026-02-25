@@ -2,212 +2,149 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
-<title>나에게 주는 선물</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>우리 가족 시상식</title>
 
 <style>
 body{
   margin:0;
-  font-family:Arial;
-  background:#f5f5f5;
+  font-family: Arial;
+  background: linear-gradient(135deg,#ffe5ec,#e0f7fa,#fff1e6,#e5ffe5);
+}
+
+/* 🔥 전체 영역 - 스크롤 허용 (잘림 방지 핵심) */
+.container{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  min-height:100vh;
+  padding:20px;
+  box-sizing:border-box;
+}
+
+/* 🔥 그리드 */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(2, 190px);
+  gap:15px;
+}
+
+/* 🔥 박스 */
+.box{
+  width:190px;
+  height:160px; /* ✅ 핵심 수정 */
+  border-radius:20px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:16px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ❤️ 하트 애니메이션 */
+.heart{
+  position:absolute;
+  font-size:20px;
+  animation:heartPop 0.6s ease-out forwards;
+}
+
+@keyframes heartPop{
+  0%{transform:scale(0); opacity:1;}
+  100%{transform:translateY(-80px) scale(1.5); opacity:0;}
+}
+
+/* 🔥 팝업 */
+.popup{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:80%;
+  max-width:400px;
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  display:none;
+  z-index:1000;
   text-align:center;
 }
 
-/* 상단 */
-.header{
-  position:relative;
-}
-
-.title-img{
-  width:90%;
-  max-width:500px;
-  margin:10px auto;
-  display:block;
-}
-
-/* 전체화면 버튼 */
-.full-btn{
-  position:absolute;
-  top:10px;
-  right:10px;
-  font-size:14px;
-  padding:8px 12px;
-  border:none;
-  border-radius:10px;
-  background:#333;
-  color:white;
-  cursor:pointer;
-}
-
-/* 그리드 */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  gap:10px;
-  padding:10px;
-}
-
-/* 박스 (비율 유지로 잘림 방지) */
-.grid img{
-  width:100%;
-  aspect-ratio:190/200;
-  object-fit:cover;
-  border-radius:15px;
-  cursor:pointer;
-}
-
-/* 클릭 */
-.grid img:active{
-  transform:scale(0.95);
-}
-
-/* 💖 하트 */
-.heart{
-  position:absolute;
-  font-size:24px;
-  pointer-events:none;
-  animation:spread 0.6s ease-out forwards;
-}
-
-@keyframes spread{
-  0%{
-    transform:scale(0.5) translate(0,0);
-    opacity:1;
-  }
-  100%{
-    transform:scale(1.8) translate(var(--x), var(--y));
-    opacity:0;
-  }
-}
-
-/* 팝업 */
-.popup{
+/* 배경 */
+.overlay{
   position:fixed;
-  top:0; left:0;
-  width:100vw;
-  height:100dvh;
-  background:rgba(0,0,0,0.6);
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
-
-/* 팝업 카드 */
-.popup-content{
-  width:90%;
-  max-width:800px;
-  max-height:80dvh;
-  background:white;
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.popup-content img{
+  top:0;
+  left:0;
   width:100%;
   height:100%;
-  object-fit:contain;
-}
-
-/* 닫기 */
-.close{
-  position:absolute;
-  top:20px;
-  right:25px;
-  font-size:35px;
-  color:white;
-  cursor:pointer;
+  background:rgba(0,0,0,0.5);
+  display:none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <img src="title.png" class="title-img">
-  <button class="full-btn" id="fullBtn" onclick="goFull()">전체화면</button>
-</div>
+<div class="container">
+  <div class="grid">
 
-<div class="grid">
-  <img src="01.png" onclick="openPop(event,'health.png')">
-  <img src="02.png" onclick="openPop(event,'love.png')">
-  <img src="03.png" onclick="openPop(event,'cheer.png')">
-  <img src="04.png" onclick="openPop(event,'rest.png')">
+    <div class="box" onclick="openBox(this)">
+      건강 선물
+    </div>
 
-  <img src="05.png" onclick="openPop(event,'freedom.png')">
-  <img src="06.png" onclick="openPop(event,'thanks.png')">
-  <img src="07.png" onclick="openPop(event,'courage.png')">
-  <img src="08.png" onclick="openPop(event,'hope.png')">
-</div>
+    <div class="box" onclick="openBox(this)">
+      사랑 선물
+    </div>
 
-<!-- 팝업 -->
-<div class="popup" id="popup">
-  <div class="close" onclick="closePop()">✖</div>
-  <div class="popup-content">
-    <img id="popImg">
+    <div class="box" onclick="openBox(this)">
+      격려 선물
+    </div>
+
+    <div class="box" onclick="openBox(this)">
+      휴식 선물
+    </div>
+
   </div>
 </div>
 
-<script>
+<div class="overlay" id="overlay"></div>
 
-// 💖 하트
-function createHearts(x, y){
+<div class="popup" id="popup">
+  <h2>🎁 선물 도착!</h2>
+  <p>지금 이 순간, 나에게 주는 소중한 선물입니다 💖</p>
+  <button onclick="closePopup()">닫기</button>
+</div>
+
+<script>
+function openBox(el){
+
+  // ❤️ 하트 생성
   for(let i=0;i<8;i++){
     const heart = document.createElement("div");
     heart.className = "heart";
-    heart.innerHTML = "💖";
+    heart.innerHTML = "❤️";
 
-    const angle = Math.random()*2*Math.PI;
-    const distance = 60 + Math.random()*40;
+    heart.style.left = Math.random()*150 + "px";
+    heart.style.top = Math.random()*120 + "px";
 
-    heart.style.left = x + "px";
-    heart.style.top = y + "px";
-    heart.style.setProperty('--x', Math.cos(angle)*distance + "px");
-    heart.style.setProperty('--y', Math.sin(angle)*distance + "px");
-
-    document.body.appendChild(heart);
+    el.appendChild(heart);
 
     setTimeout(()=>heart.remove(),600);
   }
+
+  // 🔥 바로 팝업 (0.3초 제거)
+  document.getElementById("popup").style.display="block";
+  document.getElementById("overlay").style.display="block";
 }
 
-// 클릭
-function openPop(e, img){
-
-  const rect = e.target.getBoundingClientRect();
-  const x = rect.left + rect.width/2;
-  const y = rect.top + rect.height/2;
-
-  // 하트 먼저
-  createHearts(x,y);
-
-  // ⭐ 바로 팝업 띄움 (지연 없음)
-  document.getElementById("popup").style.display="flex";
-  document.getElementById("popImg").src = img;
-}
-
-// 닫기
-function closePop(){
+function closePopup(){
   document.getElementById("popup").style.display="none";
+  document.getElementById("overlay").style.display="none";
 }
-
-// 전체화면
-async function goFull(){
-  const el = document.documentElement;
-
-  if(el.requestFullscreen){
-    await el.requestFullscreen();
-  }
-
-  document.getElementById("fullBtn").style.display="none";
-
-  if(screen.orientation && screen.orientation.lock){
-    try{
-      await screen.orientation.lock('landscape');
-    }catch(e){}
-  }
-}
-
 </script>
 
 </body>
