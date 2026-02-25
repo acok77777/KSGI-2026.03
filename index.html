@@ -10,6 +10,7 @@ body{
   margin:0;
   font-family: Arial;
   background:#fff;
+  overflow:hidden;
 }
 
 /* 상단 */
@@ -20,7 +21,7 @@ body{
 }
 
 .header img{
-  width:320px; /* 🔥 제목 크게 */
+  width:340px;
 }
 
 /* 전체화면 버튼 */
@@ -36,27 +37,33 @@ body{
   cursor:pointer;
 }
 
-/* 그리드 */
+/* 🔥 화면 꽉 채우기 */
 .grid{
   display:grid;
   grid-template-columns: repeat(4, 1fr);
-  gap:15px;
-  padding:20px;
+  grid-template-rows: repeat(2, 1fr);
+  height: calc(100vh - 120px);
+  gap:6px;
+  padding:6px;
 }
 
 /* 이미지 버튼 */
 .item{
   cursor:pointer;
-  transition:0.2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
 .item img{
   width:100%;
-  height:90px;
+  height:100%;
   object-fit:contain;
+  transition:0.2s;
 }
 
-.item:active{
+.item:active img{
   transform:scale(0.95);
 }
 
@@ -75,8 +82,8 @@ body{
 }
 
 .popup img{
-  width:90%;
-  max-height:90%;
+  width:95%;
+  max-height:95%;
 }
 
 /* 닫기 */
@@ -84,21 +91,21 @@ body{
   position:absolute;
   top:15px;
   right:20px;
-  font-size:30px;
+  font-size:35px;
   cursor:pointer;
 }
 
-/* 하트 */
+/* 💖 하트 효과 */
 .heart{
   position:absolute;
-  width:100px;
-  animation:pop 0.4s ease-out;
+  width:120px;
+  animation:pop 0.5s ease-out;
   pointer-events:none;
 }
 
 @keyframes pop{
   0%{transform:scale(0); opacity:1;}
-  100%{transform:scale(2); opacity:0;}
+  100%{transform:scale(2.5); opacity:0;}
 }
 </style>
 </head>
@@ -111,40 +118,18 @@ body{
   <button class="full-btn" id="fullBtn" onclick="goFull()">전체화면</button>
 </div>
 
-<!-- 이미지 그리드 -->
+<!-- 이미지 -->
 <div class="grid">
 
-  <div class="item" onclick="openPopup(event,'health.png')">
-    <img src="01.png">
-  </div>
+  <div class="item" onclick="openPopup(event,'health.png')"><img src="01.png"></div>
+  <div class="item" onclick="openPopup(event,'love.png')"><img src="02.png"></div>
+  <div class="item" onclick="openPopup(event,'cheer.png')"><img src="03.png"></div>
+  <div class="item" onclick="openPopup(event,'rest.png')"><img src="04.png"></div>
 
-  <div class="item" onclick="openPopup(event,'love.png')">
-    <img src="02.png">
-  </div>
-
-  <div class="item" onclick="openPopup(event,'cheer.png')">
-    <img src="03.png">
-  </div>
-
-  <div class="item" onclick="openPopup(event,'rest.png')">
-    <img src="04.png">
-  </div>
-
-  <div class="item" onclick="openPopup(event,'freedom.png')">
-    <img src="05.png">
-  </div>
-
-  <div class="item" onclick="openPopup(event,'thanks.png')">
-    <img src="06.png">
-  </div>
-
-  <div class="item" onclick="openPopup(event,'courage.png')">
-    <img src="07.png">
-  </div>
-
-  <div class="item" onclick="openPopup(event,'hope.png')">
-    <img src="08.png">
-  </div>
+  <div class="item" onclick="openPopup(event,'freedom.png')"><img src="05.png"></div>
+  <div class="item" onclick="openPopup(event,'thanks.png')"><img src="06.png"></div>
+  <div class="item" onclick="openPopup(event,'courage.png')"><img src="07.png"></div>
+  <div class="item" onclick="openPopup(event,'hope.png')"><img src="08.png"></div>
 
 </div>
 
@@ -155,20 +140,23 @@ body{
 </div>
 
 <script>
-// 팝업
+// 💖 하트 + 팝업
 function openPopup(e, imgSrc){
 
-  // 하트 효과
-  let heart = document.createElement("img");
-  heart.src = "heart.png";
-  heart.className = "heart";
-  heart.style.left = e.clientX - 50 + "px";
-  heart.style.top = e.clientY - 50 + "px";
-  document.body.appendChild(heart);
+  // 하트 여러개 퍼짐 효과
+  for(let i=0;i<3;i++){
+    let heart = document.createElement("img");
+    heart.src = "heart.png";
+    heart.className = "heart";
 
-  setTimeout(()=> heart.remove(),400);
+    heart.style.left = (e.clientX - 60 + (Math.random()*40-20)) + "px";
+    heart.style.top = (e.clientY - 60 + (Math.random()*40-20)) + "px";
 
-  // 0.2초 후 팝업
+    document.body.appendChild(heart);
+    setTimeout(()=> heart.remove(),500);
+  }
+
+  // 팝업
   setTimeout(()=>{
     document.getElementById("popupImg").src = imgSrc;
     document.getElementById("popup").style.display = "flex";
@@ -188,10 +176,8 @@ function goFull(){
     doc.requestFullscreen();
   }
 
-  // 버튼 숨기기
   document.getElementById("fullBtn").style.display = "none";
 
-  // 가로모드 시도
   if(screen.orientation && screen.orientation.lock){
     screen.orientation.lock('landscape').catch(()=>{});
   }
