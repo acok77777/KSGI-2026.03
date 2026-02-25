@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>나에게 주는 선물</title>
+
+<style>
+body{
+  margin:0;
+  background:#000;
+}
+
+/* 전체 이미지 */
+.main-img{
+  width:100%;
+  display:block;
+}
+
+/* 클릭 영역 */
+.area{
+  position:absolute;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* 클릭 애니메이션 */
+.area:active{
+  transform:scale(0.95);
+}
+
+/* 팝업 */
+.popup{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.popup img{
+  width:90%;
+  max-width:500px;
+  border-radius:20px;
+}
+
+/* 닫기 버튼 */
+.close{
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:35px;
+  color:white;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 메인 이미지 -->
+<div style="position:relative;">
+  <img src="main.png" class="main-img">
+
+  <!-- 클릭 영역 (위치 중요🔥) -->
+  <!-- 좌표는 대략이라 필요하면 미세조정 가능 -->
+
+  <div class="area" style="top:18%; left:5%; width:40%; height:20%;" onclick="openPop('health.png')"></div>
+  <div class="area" style="top:18%; left:55%; width:40%; height:20%;" onclick="openPop('love.png')"></div>
+
+  <div class="area" style="top:40%; left:5%; width:40%; height:20%;" onclick="openPop('cheer.png')"></div>
+  <div class="area" style="top:40%; left:55%; width:40%; height:20%;" onclick="openPop('rest.png')"></div>
+
+  <div class="area" style="top:62%; left:5%; width:40%; height:20%;" onclick="openPop('freedom.png')"></div>
+  <div class="area" style="top:62%; left:55%; width:40%; height:20%;" onclick="openPop('thanks.png')"></div>
+
+  <div class="area" style="top:84%; left:5%; width:40%; height:14%;" onclick="openPop('courage.png')"></div>
+  <div class="area" style="top:84%; left:55%; width:40%; height:14%;" onclick="openPop('hope.png')"></div>
+
+</div>
+
+<!-- 팝업 -->
+<div class="popup" id="popup">
+  <div class="close" onclick="closePop()">✖</div>
+  <img id="popImg">
+</div>
+
+<script>
+function openPop(img){
+  document.getElementById("popup").style.display="flex";
+  document.getElementById("popImg").src = img;
+}
+
+function closePop(){
+  document.getElementById("popup").style.display="none";
+}
+</script>
+
+</body>
+</html>
