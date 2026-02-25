@@ -13,7 +13,6 @@ body{
   background:#f5f5f5;
   text-align:center;
   overflow-x:hidden;
-  overflow-y:auto; /* ✅ 핵심 수정 */
 }
 
 /* 상단 */
@@ -43,85 +42,82 @@ body{
   z-index:10;
 }
 
-/* 기본 그리드 */
+/* 그리드 */
 .grid{
   display:grid;
-  grid-template-columns:repeat(4, 190px);
-  justify-content:center;
+  grid-template-columns:repeat(4, 1fr);
   gap:10px;
   padding:10px;
 }
 
-/* 박스 */
 .grid img{
-  width:190px;
-  height:200px;
+  width:100%;
+  aspect-ratio:190/200;
   object-fit:cover;
   border-radius:15px;
   cursor:pointer;
+  transition:0.15s;
 }
 
-/* 👉 가로모드일 때 자동 축소 */
-@media (orientation: landscape){
-  .grid{
-    grid-template-columns:repeat(4, 1fr);
-  }
-
-  .grid img{
-    width:100%;
-    height:22vh; /* ✅ 화면 높이에 맞춤 */
-  }
-
-  .title-img{
-    max-width:300px;
-    margin:5px auto;
-  }
+.grid img:active{
+  transform:scale(0.95);
 }
 
-/* 하트 */
+/* 💖 여러 하트 */
 .heart{
   position:absolute;
-  font-size:30px;
-  animation:heartSpread 1s ease-out forwards;
+  font-size:24px;
   pointer-events:none;
+  animation:spread 0.6s ease-out forwards;
 }
 
-@keyframes heartSpread{
+@keyframes spread{
   0%{
-    transform:scale(0.5);
+    transform:scale(0.5) translate(0,0);
     opacity:1;
   }
   100%{
-    transform:scale(3);
+    transform:scale(1.8) translate(var(--x), var(--y));
     opacity:0;
   }
 }
 
-/* 팝업 */
+/* 팝업 배경 */
 .popup{
   position:fixed;
   top:0; left:0;
   width:100vw;
   height:100dvh;
-  background:rgba(0,0,0,0.95);
+  background:rgba(0,0,0,0.6);
   display:none;
   justify-content:center;
   align-items:center;
   z-index:999;
 }
 
-.popup img{
+/* 팝업 카드 */
+.popup-content{
+  width:90%;
+  max-width:800px;
+  max-height:80dvh;
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.popup-content img{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
 }
 
 /* 닫기 */
 .close{
   position:absolute;
   top:20px;
-  right:20px;
-  font-size:40px;
+  right:25px;
+  font-size:35px;
   color:white;
   cursor:pointer;
 }
@@ -147,36 +143,61 @@ body{
   <img src="08.png" onclick="openPop(event,'hope.png')">
 </div>
 
+<!-- 팝업 -->
 <div class="popup" id="popup">
   <div class="close" onclick="closePop()">✖</div>
-  <img id="popImg">
+  <div class="popup-content">
+    <img id="popImg">
+  </div>
 </div>
 
 <script>
 
-function openPop(e, img){
+// 💖 여러 하트 생성
+function createHearts(x, y){
+  for(let i=0;i<8;i++){
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
 
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "❤️";
+    const angle = Math.random()*2*Math.PI;
+    const distance = 60 + Math.random()*40;
 
-  const rect = e.target.getBoundingClientRect();
-  heart.style.left = rect.left + rect.width/2 + "px";
-  heart.style.top = rect.top + rect.height/2 + "px";
+    const moveX = Math.cos(angle)*distance + "px";
+    const moveY = Math.sin(angle)*distance + "px";
 
-  document.body.appendChild(heart);
+    heart.style.left = x + "px";
+    heart.style.top = y + "px";
+    heart.style.setProperty('--x', moveX);
+    heart.style.setProperty('--y', moveY);
 
-  setTimeout(()=>{
-    heart.remove();
-    document.getElementById("popup").style.display="flex";
-    document.getElementById("popImg").src = img;
-  },1000);
+    document.body.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),600);
+  }
 }
 
+// 클릭
+function openPop(e, img){
+
+  const rect = e.target.getBoundingClientRect();
+  const x = rect.left + rect.width/2;
+  const y = rect.top + rect.height/2;
+
+  createHearts(x,y);
+
+  setTimeout(()=>{
+    document.getElementById("popup").style.display="flex";
+    document.getElementById("popImg").src = img;
+  },500); // ⭐ 0.5초
+}
+
+// 닫기
 function closePop(){
   document.getElementById("popup").style.display="none";
 }
 
+// 전체화면
 async function goFull(){
   const el = document.documentElement;
 
