@@ -12,7 +12,8 @@ body{
   font-family:Arial;
   background:#f5f5f5;
   text-align:center;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto; /* ✅ 핵심 수정 */
 }
 
 /* 상단 */
@@ -23,7 +24,7 @@ body{
 .title-img{
   width:90%;
   max-width:500px;
-  margin:20px auto;
+  margin:10px auto;
   display:block;
 }
 
@@ -42,7 +43,7 @@ body{
   z-index:10;
 }
 
-/* 그리드 (무조건 4칸 고정) */
+/* 기본 그리드 */
 .grid{
   display:grid;
   grid-template-columns:repeat(4, 190px);
@@ -58,12 +59,23 @@ body{
   object-fit:cover;
   border-radius:15px;
   cursor:pointer;
-  transition:0.15s;
 }
 
-/* 클릭 애니메이션 */
-.grid img:active{
-  transform:scale(0.9);
+/* 👉 가로모드일 때 자동 축소 */
+@media (orientation: landscape){
+  .grid{
+    grid-template-columns:repeat(4, 1fr);
+  }
+
+  .grid img{
+    width:100%;
+    height:22vh; /* ✅ 화면 높이에 맞춤 */
+  }
+
+  .title-img{
+    max-width:300px;
+    margin:5px auto;
+  }
 }
 
 /* 하트 */
@@ -98,7 +110,6 @@ body{
   z-index:999;
 }
 
-/* 이미지 */
 .popup img{
   width:100%;
   height:100%;
@@ -113,20 +124,17 @@ body{
   font-size:40px;
   color:white;
   cursor:pointer;
-  z-index:1000;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 상단 -->
 <div class="header">
   <img src="title.png" class="title-img">
   <button class="full-btn" id="fullBtn" onclick="goFull()">전체화면</button>
 </div>
 
-<!-- 8칸 -->
 <div class="grid">
   <img src="01.png" onclick="openPop(event,'health.png')">
   <img src="02.png" onclick="openPop(event,'love.png')">
@@ -139,7 +147,6 @@ body{
   <img src="08.png" onclick="openPop(event,'hope.png')">
 </div>
 
-<!-- 팝업 -->
 <div class="popup" id="popup">
   <div class="close" onclick="closePop()">✖</div>
   <img id="popImg">
@@ -147,7 +154,6 @@ body{
 
 <script>
 
-// 팝업 + 하트
 function openPop(e, img){
 
   const heart = document.createElement("div");
@@ -162,20 +168,15 @@ function openPop(e, img){
 
   setTimeout(()=>{
     heart.remove();
-
-    // 팝업 즉시 등장 (애니메이션 없음)
     document.getElementById("popup").style.display="flex";
     document.getElementById("popImg").src = img;
-
-  },1000); // ⭐ 1초 후
+  },1000);
 }
 
-// 닫기
 function closePop(){
   document.getElementById("popup").style.display="none";
 }
 
-// 전체화면 + 가로 시도
 async function goFull(){
   const el = document.documentElement;
 
@@ -183,16 +184,12 @@ async function goFull(){
     await el.requestFullscreen();
   }
 
-  // 버튼 숨김
   document.getElementById("fullBtn").style.display="none";
 
-  // 가로 회전 시도 (지원되는 기기에서만 작동)
   if(screen.orientation && screen.orientation.lock){
     try{
       await screen.orientation.lock('landscape');
-    }catch(e){
-      console.log("가로모드 잠금 실패 (일부 기기 제한)");
-    }
+    }catch(e){}
   }
 }
 
