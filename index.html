@@ -30,23 +30,11 @@ body{
 
 /* 전체 영역 */
 .wrapper{
-  padding:12px 32px;
+  padding:16px 32px; /* 👉 여백만 유지 */
   display:flex;
   flex-direction:column;
   height:100vh;
   box-sizing:border-box;
-}
-
-/* 타이틀 */
-.title{
-  text-align:center;
-  margin-bottom:10px;
-}
-
-.title img{
-  width:60%;
-  max-height:35px; /* 👉 더 줄여서 위 잘림 해결 */
-  object-fit:contain;
 }
 
 /* 그리드 */
@@ -125,10 +113,6 @@ body{
 <button class="full-btn" id="fullBtn" onclick="goFull()">전체화면</button>
 
 <div class="wrapper">
-
-  <div class="title">
-    <img src="title.png">
-  </div>
 
   <div class="grid">
 
