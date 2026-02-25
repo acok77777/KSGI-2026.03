@@ -12,8 +12,9 @@ body{
   background: linear-gradient(135deg,#ffe5ec,#e0f7fa,#fff1e6,#e5ffe5);
 }
 
+/* 전체 컨테이너 */
 .container{
-  padding:16px;
+  padding:12px;
   max-width:100%;
   box-sizing:border-box;
 }
@@ -21,41 +22,48 @@ body{
 /* 상단 이미지 */
 .title-img{
   width:100%;
-  border-radius:18px;
-  margin-bottom:14px;
+  border-radius:15px;
+  margin-bottom:10px;
 }
 
 /* 박스 영역 */
 .grid{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap:10px;
+  gap:8px;
 }
 
 /* 박스 */
 .box{
   background:white;
-  padding:22px 10px;
-  border-radius:20px;
+  padding:20px 10px;
+  border-radius:18px;
   font-size:18px;
   font-weight:bold;
   text-align:center;
   cursor:pointer;
   position:relative;
   overflow:hidden;
-  box-shadow:0 6px 14px rgba(0,0,0,0.12);
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* 하트 */
+/* 하트 애니메이션 */
 .heart{
   position:absolute;
   font-size:20px;
   animation: spread 1s ease-out forwards;
+  pointer-events:none;
 }
 
 @keyframes spread{
-  0%{opacity:1; transform:scale(0.5);}
-  100%{opacity:0; transform:translateY(-70px) scale(2);}
+  0%{
+    opacity:1;
+    transform:scale(0.5);
+  }
+  100%{
+    opacity:0;
+    transform:translateY(-60px) scale(1.8);
+  }
 }
 
 /* 팝업 */
@@ -76,9 +84,9 @@ body{
 
 .popup button{
   margin-top:15px;
-  padding:10px 18px;
+  padding:8px 16px;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   background:white;
   cursor:pointer;
 }
@@ -89,9 +97,8 @@ body{
 
 <div class="container">
 
-  <!-- ✅ 내가 이미지까지 넣어줌 (수정 필요 없음) -->
-  <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?q=80&w=1200" class="title-img">
-
+  <!-- 🔥 여기 이미지 주소만 바꾸면 됨 -->
+ https://raw.githubusercontent.com/아이디/레포/main/title.png
   <div class="grid">
     <div class="box" onclick="clickBox(event,'건강')">건강</div>
     <div class="box" onclick="clickBox(event,'사랑')">사랑</div>
@@ -103,6 +110,7 @@ body{
 
 </div>
 
+<!-- 팝업 -->
 <div class="popup" id="popup">
   <div id="popupText"></div>
   <button onclick="closePopup()">닫기</button>
@@ -111,7 +119,8 @@ body{
 <script>
 function clickBox(e,text){
 
-  for(let i=0;i<10;i++){
+  // ❤️ 하트 여러 개 생성
+  for(let i=0;i<8;i++){
     let heart=document.createElement("div");
     heart.className="heart";
     heart.innerHTML="❤️";
@@ -120,9 +129,11 @@ function clickBox(e,text){
     heart.style.top="60%";
 
     e.currentTarget.appendChild(heart);
+
     setTimeout(()=>heart.remove(),1000);
   }
 
+  // 팝업 표시
   document.getElementById("popupText").innerText=text + " 선물 🎁";
   document.getElementById("popup").style.display="block";
 }
