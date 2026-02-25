@@ -12,7 +12,7 @@ body{
   font-family:Arial;
   background:#f5f5f5;
   text-align:center;
-  overflow-x:hidden;
+  overflow:hidden;
 }
 
 /* 상단 */
@@ -42,31 +42,23 @@ body{
   z-index:10;
 }
 
-/* 가로 화면 최적화 */
-@media (orientation: landscape){
-  body{
-    max-width:100vw;
-  }
-}
-
-/* 그리드 */
+/* 그리드 (무조건 4칸 고정) */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(248px,1fr));
-  justify-items:center;
+  grid-template-columns:repeat(4, 190px);
+  justify-content:center;
   gap:10px;
   padding:10px;
 }
 
-/* 박스 고정 크기 */
+/* 박스 */
 .grid img{
-  width:248px;
-  height:224px;
+  width:190px;
+  height:200px;
   object-fit:cover;
   border-radius:15px;
   cursor:pointer;
   transition:0.15s;
-  position:relative;
 }
 
 /* 클릭 애니메이션 */
@@ -74,11 +66,11 @@ body{
   transform:scale(0.9);
 }
 
-/* 하트 애니메이션 */
+/* 하트 */
 .heart{
   position:absolute;
   font-size:30px;
-  animation:heartSpread 0.6s ease-out forwards;
+  animation:heartSpread 1s ease-out forwards;
   pointer-events:none;
 }
 
@@ -93,12 +85,12 @@ body{
   }
 }
 
-/* 팝업 (전체 꽉차게) */
+/* 팝업 */
 .popup{
   position:fixed;
   top:0; left:0;
   width:100vw;
-  height:100vh;
+  height:100dvh;
   background:rgba(0,0,0,0.95);
   display:none;
   justify-content:center;
@@ -106,16 +98,14 @@ body{
   z-index:999;
 }
 
-/* 팝업 이미지 */
+/* 이미지 */
 .popup img{
   width:100%;
   height:100%;
-  object-fit:contain;
-  max-width:1191px;
-  max-height:674px;
+  object-fit:cover;
 }
 
-/* 닫기 버튼 */
+/* 닫기 */
 .close{
   position:absolute;
   top:20px;
@@ -157,10 +147,9 @@ body{
 
 <script>
 
-// 팝업 열기 + 하트 효과
+// 팝업 + 하트
 function openPop(e, img){
 
-  // 하트 생성
   const heart = document.createElement("div");
   heart.className = "heart";
   heart.innerHTML = "❤️";
@@ -173,26 +162,38 @@ function openPop(e, img){
 
   setTimeout(()=>{
     heart.remove();
+
+    // 팝업 즉시 등장 (애니메이션 없음)
     document.getElementById("popup").style.display="flex";
     document.getElementById("popImg").src = img;
-  },300);
+
+  },1000); // ⭐ 1초 후
 }
 
-// 팝업 닫기
+// 닫기
 function closePop(){
   document.getElementById("popup").style.display="none";
 }
 
-// 전체화면 + 버튼 숨김
-function goFull(){
+// 전체화면 + 가로 시도
+async function goFull(){
   const el = document.documentElement;
 
   if(el.requestFullscreen){
-    el.requestFullscreen();
+    await el.requestFullscreen();
   }
 
   // 버튼 숨김
   document.getElementById("fullBtn").style.display="none";
+
+  // 가로 회전 시도 (지원되는 기기에서만 작동)
+  if(screen.orientation && screen.orientation.lock){
+    try{
+      await screen.orientation.lock('landscape');
+    }catch(e){
+      console.log("가로모드 잠금 실패 (일부 기기 제한)");
+    }
+  }
 }
 
 </script>
