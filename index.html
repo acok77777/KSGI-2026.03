@@ -2,54 +2,59 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <title>나에게 주는 선물</title>
 
 <style>
 body{
   margin:0;
-  font-family:Arial;
-  background:#f5f5f5;
-  text-align:center;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
 }
 
-/* 상단 */
-.header{
-  position:relative;
-}
-
-.title-img{
-  width:90%;
+/* 전체 컨테이너 (비율 유지 핵심🔥) */
+.wrapper{
+  width:100%;
   max-width:500px;
-  margin:20px auto;
-  display:block;
+  aspect-ratio: 1 / 1.6;
+  background:#f5f5f5;
+  position:relative;
+  overflow:hidden;
 }
 
-/* 전체화면 버튼 */
-.full-btn{
-  position:absolute;
-  top:10px;
-  right:10px;
-  font-size:14px;
-  padding:8px 12px;
-  border:none;
-  border-radius:10px;
-  background:#333;
-  color:white;
-  cursor:pointer;
+/* 가로모드 대응 */
+@media (orientation: landscape){
+  .wrapper{
+    transform: rotate(90deg);
+    width:100vh;
+    height:100vw;
+  }
+}
+
+/* 타이틀 */
+.title{
+  width:90%;
+  margin:10px auto;
+  display:block;
 }
 
 /* 그리드 */
 .grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  padding:10px;
+  gap:8px;
+  padding:8px;
 }
 
+/* 박스 크기 정확히 */
 .grid img{
   width:100%;
+  aspect-ratio: 250 / 224;
   border-radius:15px;
   cursor:pointer;
   transition:0.15s;
@@ -60,22 +65,39 @@ body{
   transform:scale(0.9);
 }
 
+/* 전체화면 버튼 (하단 투명) */
+.full-btn{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:10px 20px;
+  border-radius:20px;
+  border:none;
+  background:rgba(0,0,0,0.3);
+  color:white;
+  font-size:14px;
+  cursor:pointer;
+}
+
 /* 팝업 */
 .popup{
   position:fixed;
   top:0; left:0;
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.85);
+  background:rgba(0,0,0,0.9);
   display:none;
   justify-content:center;
   align-items:center;
 }
 
+/* 팝업 이미지 비율 맞춤 */
 .popup img{
   width:90%;
-  max-width:500px;
-  border-radius:20px;
+  max-width:1191px;
+  aspect-ratio:1191 / 674;
+  border-radius:15px;
 }
 
 /* 닫기 버튼 */
@@ -92,23 +114,27 @@ body{
 
 <body>
 
-<!-- 상단 -->
-<div class="header">
-  <img src="title.png" class="title-img">
-  <button class="full-btn" onclick="goFull()">전체화면</button>
-</div>
+<div class="wrapper">
 
-<!-- 8칸 -->
-<div class="grid">
-  <img src="01.png" onclick="openPop('health.png')">
-  <img src="02.png" onclick="openPop('love.png')">
-  <img src="03.png" onclick="openPop('cheer.png')">
-  <img src="04.png" onclick="openPop('rest.png')">
+  <!-- 타이틀 -->
+  <img src="title.png" class="title">
 
-  <img src="05.png" onclick="openPop('freedom.png')">
-  <img src="06.png" onclick="openPop('thanks.png')">
-  <img src="07.png" onclick="openPop('courage.png')">
-  <img src="08.png" onclick="openPop('hope.png')">
+  <!-- 8칸 -->
+  <div class="grid">
+    <img src="01.png" onclick="openPop('health.png')">
+    <img src="02.png" onclick="openPop('love.png')">
+    <img src="03.png" onclick="openPop('cheer.png')">
+    <img src="04.png" onclick="openPop('rest.png')">
+
+    <img src="05.png" onclick="openPop('freedom.png')">
+    <img src="06.png" onclick="openPop('thanks.png')">
+    <img src="07.png" onclick="openPop('courage.png')">
+    <img src="08.png" onclick="openPop('hope.png')">
+  </div>
+
+  <!-- 전체화면 버튼 -->
+  <button class="full-btn" id="fullBtn" onclick="goFull()">전체화면</button>
+
 </div>
 
 <!-- 팝업 -->
@@ -118,22 +144,22 @@ body{
 </div>
 
 <script>
-// 팝업 열기
+// 팝업
 function openPop(img){
   document.getElementById("popup").style.display="flex";
   document.getElementById("popImg").src = img;
 }
 
-// 팝업 닫기
 function closePop(){
   document.getElementById("popup").style.display="none";
 }
 
-// 전체화면
+// 전체화면 + 버튼 제거
 function goFull(){
   if(document.documentElement.requestFullscreen){
     document.documentElement.requestFullscreen();
   }
+  document.getElementById("fullBtn").style.display="none";
 }
 </script>
 
