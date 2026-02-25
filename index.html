@@ -29,16 +29,33 @@ body{
 
 /* 전체 영역 */
 .wrapper{
-  padding:10px 8px;
+  padding:8px;
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  box-sizing:border-box;
+}
+
+/* 🔥 타이틀 */
+.title{
+  text-align:center;
+  margin-bottom:6px;
+}
+
+.title img{
+  width:90%;
+  max-height:80px;
+  object-fit:contain;
 }
 
 /* 그리드 */
 .grid{
+  flex:1;
   display:grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  height:100vh;
   gap:6px;
+  height:100%;
 }
 
 /* 박스 */
@@ -109,6 +126,12 @@ body{
 <button class="full-btn" id="fullBtn" onclick="goFull()">전체화면</button>
 
 <div class="wrapper">
+
+  <!-- 🔥 타이틀 이미지 (여기만 네 GitHub 주소로 바꾸면 됨) -->
+  <div class="title">
+    <img src="title.png">
+  </div>
+
   <div class="grid">
 
     <div class="item" onclick="openPopup(event,'health.png')"><img src="01.png"></div>
