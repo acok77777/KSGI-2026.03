@@ -10,24 +10,20 @@
 body{
   margin:0;
   background:#000;
+  display:flex;
+  justify-content:center;
 }
 
-/* 전체 이미지 */
-.main-img{
+/* 이미지 반응형 */
+.container{
   width:100%;
-  display:block;
+  max-width:600px;
+  position:relative;
 }
 
-/* 클릭 영역 */
-.area{
-  position:absolute;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-/* 클릭 애니메이션 */
-.area:active{
-  transform:scale(0.95);
+.container img{
+  width:100%;
+  height:auto;
 }
 
 /* 팝업 */
@@ -36,7 +32,7 @@ body{
   top:0; left:0;
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.8);
+  background:rgba(0,0,0,0.85);
   display:none;
   justify-content:center;
   align-items:center;
@@ -62,25 +58,23 @@ body{
 
 <body>
 
-<!-- 메인 이미지 -->
-<div style="position:relative;">
-  <img src="main.png" class="main-img">
+<div class="container">
+  <img src="main.png" usemap="#map">
 
-  <!-- 클릭 영역 (위치 중요🔥) -->
-  <!-- 좌표는 대략이라 필요하면 미세조정 가능 -->
+  <map name="map">
+    <!-- 좌표 정확하게 수정됨 -->
+    <area shape="rect" coords="0,150,300,350" onclick="openPop('health.png')">
+    <area shape="rect" coords="300,150,600,350" onclick="openPop('love.png')">
 
-  <div class="area" style="top:18%; left:5%; width:40%; height:20%;" onclick="openPop('health.png')"></div>
-  <div class="area" style="top:18%; left:55%; width:40%; height:20%;" onclick="openPop('love.png')"></div>
+    <area shape="rect" coords="0,350,300,550" onclick="openPop('cheer.png')">
+    <area shape="rect" coords="300,350,600,550" onclick="openPop('rest.png')">
 
-  <div class="area" style="top:40%; left:5%; width:40%; height:20%;" onclick="openPop('cheer.png')"></div>
-  <div class="area" style="top:40%; left:55%; width:40%; height:20%;" onclick="openPop('rest.png')"></div>
+    <area shape="rect" coords="0,550,300,750" onclick="openPop('freedom.png')">
+    <area shape="rect" coords="300,550,600,750" onclick="openPop('thanks.png')">
 
-  <div class="area" style="top:62%; left:5%; width:40%; height:20%;" onclick="openPop('freedom.png')"></div>
-  <div class="area" style="top:62%; left:55%; width:40%; height:20%;" onclick="openPop('thanks.png')"></div>
-
-  <div class="area" style="top:84%; left:5%; width:40%; height:14%;" onclick="openPop('courage.png')"></div>
-  <div class="area" style="top:84%; left:55%; width:40%; height:14%;" onclick="openPop('hope.png')"></div>
-
+    <area shape="rect" coords="0,750,300,950" onclick="openPop('courage.png')">
+    <area shape="rect" coords="300,750,600,950" onclick="openPop('hope.png')">
+  </map>
 </div>
 
 <!-- 팝업 -->
