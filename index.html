@@ -79,14 +79,6 @@ body{
   cursor:pointer;
 }
 
-.close{
-  position:absolute;
-  top:15px;
-  right:20px;
-  font-size:35px;
-  cursor:pointer;
-}
-
 .heart{
   position:absolute;
   width:60px;
@@ -122,7 +114,6 @@ body{
 </div>
 
 <div class="popup" id="popup">
-  <div class="close" onclick="closePopup()">✖</div>
   <img id="popupImg">
 </div>
 
@@ -130,7 +121,7 @@ body{
 
 let state = 0; 
 // 0 = 첫 팝업
-// 1 = 두번째 (present)
+// 1 = 두번째 팝업
 
 function openPopup(e, imgSrc){
 
@@ -139,6 +130,7 @@ function openPopup(e, imgSrc){
   let x = e.clientX || window.innerWidth/2;
   let y = e.clientY || window.innerHeight/2;
 
+  // 하트 효과
   for(let i=0;i<3;i++){
     let heart = document.createElement("img");
     heart.src = "heart.png";
@@ -159,24 +151,20 @@ function openPopup(e, imgSrc){
 
     img.onclick = function(){
 
-      // 👉 첫 클릭 → present
+      // 👉 첫 팝업 클릭 → 두번째 팝업
       if(state === 0){
         img.src = "present.png";
         state = 1;
       }
 
-      // 👉 두번째 클릭 → 처음 화면으로
+      // 👉 두번째 팝업 클릭 → 처음 화면
       else{
-        closePopup();
+        document.getElementById("popup").style.display = "none";
       }
 
     };
 
   },150);
-}
-
-function closePopup(){
-  document.getElementById("popup").style.display = "none";
 }
 
 function goFull(){
