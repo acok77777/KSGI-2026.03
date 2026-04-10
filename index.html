@@ -128,17 +128,17 @@ body{
 
 <script>
 
-let isSecond = false;
+let state = 0; 
+// 0 = 첫 팝업
+// 1 = 두번째 (present)
 
 function openPopup(e, imgSrc){
 
-  isSecond = false;
+  state = 0;
 
-  // 👉 클릭 좌표 안전 처리 (PC + 모바일)
   let x = e.clientX || window.innerWidth/2;
   let y = e.clientY || window.innerHeight/2;
 
-  // 👉 하트 효과
   for(let i=0;i<3;i++){
     let heart = document.createElement("img");
     heart.src = "heart.png";
@@ -157,12 +157,19 @@ function openPopup(e, imgSrc){
     img.src = imgSrc;
     document.getElementById("popup").style.display = "flex";
 
-    // 👉 핵심: 클릭 이벤트 강제 연결 (PC 문제 해결)
     img.onclick = function(){
-      if(!isSecond){
+
+      // 👉 첫 클릭 → present
+      if(state === 0){
         img.src = "present.png";
-        isSecond = true;
+        state = 1;
       }
+
+      // 👉 두번째 클릭 → 처음 화면으로
+      else{
+        closePopup();
+      }
+
     };
 
   },150);
