@@ -79,16 +79,6 @@ body{
   cursor:pointer;
 }
 
-/* 👉 화살표 버튼 */
-.arrow{
-  position:absolute;
-  top:20px;
-  right:20px;
-  font-size:40px;
-  cursor:pointer;
-  user-select:none;
-}
-
 .heart{
   position:absolute;
   width:60px;
@@ -124,7 +114,6 @@ body{
 </div>
 
 <div class="popup" id="popup">
-  <div class="arrow" id="arrow">▶</div>
   <img id="popupImg">
 </div>
 
@@ -156,33 +145,26 @@ function openPopup(e, imgSrc){
 
   setTimeout(()=>{
     const img = document.getElementById("popupImg");
-    const arrow = document.getElementById("arrow");
 
     img.src = imgSrc;
     document.getElementById("popup").style.display = "flex";
 
-    // 👉 이미지 클릭
-    img.onclick = nextStep;
+    img.onclick = function(){
 
-    // 👉 화살표 클릭
-    arrow.onclick = nextStep;
+      // 👉 첫 팝업 클릭 → 두번째 팝업
+      if(state === 0){
+        img.src = "present.png";
+        state = 1;
+      }
+
+      // 👉 두번째 팝업 클릭 → 처음 화면
+      else{
+        document.getElementById("popup").style.display = "none";
+      }
+
+    };
 
   },150);
-}
-
-function nextStep(){
-
-  const img = document.getElementById("popupImg");
-
-  // 👉 첫 → 두번째
-  if(state === 0){
-    img.src = "present.png";
-    state = 1;
-  }
-  // 👉 두번째 → 종료
-  else{
-    document.getElementById("popup").style.display = "none";
-  }
 }
 
 function goFull(){
