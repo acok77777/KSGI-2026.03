@@ -123,7 +123,7 @@ body{
 
 <div class="popup" id="popup">
   <div class="close" onclick="closePopup()">✖</div>
-  <img id="popupImg" onclick="showSecondPopup()">
+  <img id="popupImg">
 </div>
 
 <script>
@@ -134,29 +134,38 @@ function openPopup(e, imgSrc){
 
   isSecond = false;
 
+  // 👉 클릭 좌표 안전 처리 (PC + 모바일)
+  let x = e.clientX || window.innerWidth/2;
+  let y = e.clientY || window.innerHeight/2;
+
+  // 👉 하트 효과
   for(let i=0;i<3;i++){
     let heart = document.createElement("img");
     heart.src = "heart.png";
     heart.className = "heart";
 
-    heart.style.left = (e.clientX - 30 + (Math.random()*40-20)) + "px";
-    heart.style.top = (e.clientY - 30 + (Math.random()*40-20)) + "px";
+    heart.style.left = (x - 30 + (Math.random()*40-20)) + "px";
+    heart.style.top = (y - 30 + (Math.random()*40-20)) + "px";
 
     document.body.appendChild(heart);
     setTimeout(()=> heart.remove(),500);
   }
 
   setTimeout(()=>{
-    document.getElementById("popupImg").src = imgSrc;
-    document.getElementById("popup").style.display = "flex";
-  },150);
-}
+    const img = document.getElementById("popupImg");
 
-function showSecondPopup(){
-  if(!isSecond){
-    document.getElementById("popupImg").src = "present.png";
-    isSecond = true;
-  }
+    img.src = imgSrc;
+    document.getElementById("popup").style.display = "flex";
+
+    // 👉 핵심: 클릭 이벤트 강제 연결 (PC 문제 해결)
+    img.onclick = function(){
+      if(!isSecond){
+        img.src = "present.png";
+        isSecond = true;
+      }
+    };
+
+  },150);
 }
 
 function closePopup(){
